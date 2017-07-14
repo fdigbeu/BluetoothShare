@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_value_17">17sp</dimen>
+    <dimen name="text_size_value_20">20sp</dimen>
+    <dimen name="widget_padding_5">5dp</dimen>
+    <dimen name="widget_padding_10">5dp</dimen>
+    <dimen name="widget_padding_20">20dp</dimen>
+</resources>
