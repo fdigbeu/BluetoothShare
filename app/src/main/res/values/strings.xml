@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">BluetoothShare</string>
+    <string name="app_name">Bluetooth Share</string>
+    <string name="btn_share_by_bluetooth">Partager via Bluetooth</string>
+    <string name="txt_write_data_to_share">Veuillez saisir le texte à partager</string>
+    <string name="txt_field_require">Champ obligatoire</string>
 </resources>

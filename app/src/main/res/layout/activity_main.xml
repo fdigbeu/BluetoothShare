@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_padding_20"
     tools:context="lveapp.fr.bluetoothshare.MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/txt_write_data_to_share"
+        android:textSize="@dimen/text_size_value_17"
+        android:paddingLeft="@dimen/widget_padding_20"
+        android:paddingTop="@dimen/widget_padding_20"
+        android:paddingRight="@dimen/widget_padding_20"
+        android:paddingBottom="@dimen/widget_padding_5"
+        android:layout_marginTop="@dimen/widget_padding_20"
+        android:gravity="center"/>
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:padding="@dimen/widget_padding_20" />
+
+    <Button
+        android:id="@+id/buttonShare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_share_by_bluetooth"
+        android:gravity="center"
+        android:padding="@dimen/text_size_value_20"
+        android:layout_marginTop="@dimen/widget_padding_10"/>
+
+</LinearLayout>
