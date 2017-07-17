@@ -74,24 +74,13 @@ public class MainActivity extends AppCompatActivity implements MainView.IMainAct
                 }
                 break;
         }
-
-        /*if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                //Getting the Bitmap from Gallery
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                //Setting the Bitmap to ImageView
-                imageSelected.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     @Override
     public void showImageView(String srcImage) {
-        imageSelected.setVisibility(View.VISIBLE);
         Picasso.with(MainActivity.this).load(srcImage).into(imageSelected);
+        buttonExport.setVisibility(View.VISIBLE);
+        imageSelected.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -100,8 +89,9 @@ public class MainActivity extends AppCompatActivity implements MainView.IMainAct
             //Getting the Bitmap from Gallery
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
             //Setting the Bitmap to ImageView
-            imageSelected.setVisibility(View.VISIBLE);
             imageSelected.setImageBitmap(bitmap);
+            buttonExport.setVisibility(View.VISIBLE);
+            imageSelected.setVisibility(View.VISIBLE);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,6 +115,18 @@ public class MainActivity extends AppCompatActivity implements MainView.IMainAct
     @Override
     public void showProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void activateButton() {
+        buttonShare.setEnabled(true);
+        buttonSelectFile.setEnabled(true);
+    }
+
+    @Override
+    public void desactivateButton() {
+        buttonShare.setEnabled(false);
+        buttonSelectFile.setEnabled(false);
     }
 
     @Override
