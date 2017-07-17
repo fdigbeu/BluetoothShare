@@ -3,6 +3,8 @@ package lveapp.fr.bluetoothshare.Model;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -15,6 +17,33 @@ import android.provider.MediaStore;
 
 public class Common {
 
+    /**
+     * Verify if device is connected
+     * @param context
+     * @return
+     */
+    public static boolean isMobileConnected(Context context){
+        int[] networkTypes = {ConnectivityManager.TYPE_MOBILE, ConnectivityManager.TYPE_WIFI};
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            for (int networkType : networkTypes) {
+                NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                if (activeNetworkInfo != null && activeNetworkInfo.getType() == networkType) return true;
+            }
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+
+    /**
+     * Retrieve the real path of selected image
+     * @param context
+     * @param uri
+     * @return
+     */
     public static String getRealPath(final Context context, final Uri uri) {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
