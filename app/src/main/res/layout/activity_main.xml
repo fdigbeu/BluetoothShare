@@ -52,7 +52,6 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_export_via_server"
         android:gravity="center"
-        android:layout_weight="1"
         android:padding="@dimen/widget_padding_5"
         android:layout_margin="@dimen/widget_padding_5"
         android:visibility="gone"
