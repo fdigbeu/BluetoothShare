@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import lveapp.fr.bluetoothshare.Model.Common;
@@ -21,18 +24,26 @@ import lveapp.fr.bluetoothshare.R;
  * Created by Maranatha on 14/07/2017.
  */
 
-public class MainPresenter implements MainView.IMainPresenter {
+public class MainPresenter implements MainView.IMainPresenter, MainView.OnLoadImageFinished {
 
+    /**
+     * Attributes
+     */
     private BluetoothAdapter blueAdp;
+    private Intent data;
     private String filePath;
     private Context context;
     private MainView.IMainActivity iMainActivity;
+    private LoadImage loadImage;
 
     public MainPresenter(MainView.IMainActivity iMainActivity) {
         this.iMainActivity = iMainActivity;
     }
 
-    // Load data
+    /**
+     * Load data
+     * @param context The context.
+     */
     public void loadMainData(Context context){
         this.context = context;
         blueAdp = BluetoothAdapter.getDefaultAdapter();
@@ -52,6 +63,25 @@ public class MainPresenter implements MainView.IMainPresenter {
             case R.id.buttonSelectFile:
                 iMainActivity.showFileChooser();
                 break;
+            case R.id.buttonExport:
+                if(Common.isMobileConnected(context)){
+                    iMainActivity.showProgressBar();
+                    iMainActivity.desactivateButton();
+                    Uri uriPath = data.getData();
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uriPath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    loadImage = new LoadImage();
+                    loadImage.LoadImageData(this, context.getResources().getString(R.string.url_image_post), filePath, bitmap);
+                    loadImage.execute();
+                }
+                else{
+                    iMainActivity.showToastMessage(context.getResources().getString(R.string.txt_connection_error));
+                }
+                break;
         }
     }
 
@@ -63,6 +93,7 @@ public class MainPresenter implements MainView.IMainPresenter {
         if(data != null){
             String imagePath = Common.getRealPath(context, data.getData());
             if (imagePath != null){
+                this.data = data;
                 this.filePath = "file://"+imagePath;
                 Log.i("TAG", filePath);
                 iMainActivity.showImageView(filePath);
@@ -122,5 +153,21 @@ public class MainPresenter implements MainView.IMainPresenter {
                 context.startActivity(intent);
             }
         }
+    }
+
+    @Override
+    public void onLoadSuccess(String urlImage) {
+        iMainActivity.hideProgressBar();
+        iMainActivity.activateButton();
+        // Open in the browser
+        Intent intent= new Intent(Intent.ACTION_VIEW,Uri.parse(urlImage));
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void onLoadError(String message) {
+        iMainActivity.showToastMessage(message);
+        iMainActivity.hideProgressBar();
+        iMainActivity.activateButton();
     }
 }
