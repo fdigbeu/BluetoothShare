@@ -5,35 +5,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:keepScreenOn="true"
     android:padding="@dimen/widget_padding_20"
     tools:context="lveapp.fr.bluetoothshare.View.Activities.MainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txt_write_data_to_share"
-        android:textSize="@dimen/text_size_value_17"
-        android:paddingLeft="@dimen/widget_padding_20"
-        android:paddingTop="@dimen/widget_padding_20"
-        android:paddingRight="@dimen/widget_padding_20"
-        android:paddingBottom="@dimen/widget_padding_5"
-        android:layout_marginTop="@dimen/widget_padding_20"
-        android:gravity="center"/>
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"/>
 
-    <EditText
-        android:id="@+id/editMessage"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:padding="@dimen/widget_padding_20" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonSelectFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_select_file"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:padding="@dimen/widget_padding_5"
+            android:layout_margin="@dimen/widget_padding_5"
+            android:layout_marginTop="@dimen/widget_padding_5"/>
+
+        <Button
+            android:id="@+id/buttonShare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_share_by_bluetooth"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:padding="@dimen/widget_padding_5"
+            android:layout_margin="@dimen/widget_padding_5"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/widget_padding_5"/>
+    </LinearLayout>
 
     <Button
-        android:id="@+id/buttonShare"
+        android:id="@+id/buttonExport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_share_by_bluetooth"
+        android:text="@string/btn_export_via_server"
         android:gravity="center"
-        android:padding="@dimen/text_size_value_20"
-        android:layout_marginTop="@dimen/widget_padding_10"/>
+        android:layout_weight="1"
+        android:padding="@dimen/widget_padding_5"
+        android:layout_margin="@dimen/widget_padding_5"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/widget_padding_5"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageSelected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/widget_padding_5"
+            android:scaleType="center"
+            android:visibility="gone"
+            android:gravity="center"/>
+    </ScrollView>
 
 </LinearLayout>
