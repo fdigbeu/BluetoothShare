@@ -3,4 +3,6 @@
     <string name="btn_share_by_bluetooth">Partager via Bluetooth</string>
     <string name="txt_write_data_to_share">Veuillez saisir le texte à partager</string>
     <string name="txt_field_require">Champ obligatoire</string>
+    <string name="txt_data_no_keep">Données non sauvegardées.</string>
+    <string name="txt_no_bluetooth_find">Aucun Bluetooth trouvé</string>
 </resources>
