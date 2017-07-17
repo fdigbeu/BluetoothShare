@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     buildToolsVersion "25.0.3"
+    useLibrary 'org.apache.http.legacy' // AJOUT APACHE POUR METHODE POST
     defaultConfig {
         applicationId "lveapp.fr.bluetoothshare"
         minSdkVersion 16
@@ -20,11 +21,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1' // AJOUT APACHE POUR METHODE POST
     testCompile 'junit:junit:4.12'
+    compile files('libs/opencsv-3.7.jar')
 }
