@@ -1,5 +1,6 @@
 package lveapp.fr.bluetoothshare.Presenter.Main;
 
+import android.net.Uri;
 import android.widget.EditText;
 
 /**
@@ -9,8 +10,13 @@ import android.widget.EditText;
 public class MainView {
     public interface IMainActivity{
         public void init();
-        public void showFieldError();
+        public void showFileChooser();
+        public void showImageView(String srcImage);
+        public void showBitmapImageView(Uri filePath);
+        public void showButtonShare();
         public void showToastMessage(String message);
+        public void hideProgressBar();
+        public void showProgressBar();
     }
 
     public interface IMainPresenter{
