@@ -17,9 +17,16 @@ public class MainView {
         public void showToastMessage(String message);
         public void hideProgressBar();
         public void showProgressBar();
+        public void activateButton();
+        public void desactivateButton();
     }
 
     public interface IMainPresenter{
 
+    }
+
+    public interface OnLoadImageFinished{
+        public void onLoadSuccess(String urlImage);
+        public void onLoadError(String message);
     }
 }
