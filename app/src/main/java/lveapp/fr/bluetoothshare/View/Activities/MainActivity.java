@@ -1,12 +1,20 @@
 package lveapp.fr.bluetoothshare.View.Activities;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import lveapp.fr.bluetoothshare.Presenter.Main.MainPresenter;
 import lveapp.fr.bluetoothshare.Presenter.Main.MainView;
@@ -14,10 +22,15 @@ import lveapp.fr.bluetoothshare.R;
 
 public class MainActivity extends AppCompatActivity implements MainView.IMainActivity, View.OnClickListener {
     // Ref widgets
-    private EditText editMessage;
+    private ImageView imageSelected;
+    private Button buttonSelectFile;
     private Button buttonShare;
+    private Button buttonExport;
+    private ProgressBar progressBar;
     // Ref presenter
     private MainPresenter presenter;
+    // Request code
+    private final int PICK_IMAGE_REQUEST = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +43,73 @@ public class MainActivity extends AppCompatActivity implements MainView.IMainAct
 
     @Override
     public void init() {
-        editMessage = (EditText)findViewById(R.id.editMessage);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        imageSelected = (ImageView) findViewById(R.id.imageSelected);
+        buttonExport = (Button)findViewById(R.id.buttonExport);
+        buttonExport.setOnClickListener(this);
+        buttonSelectFile = (Button)findViewById(R.id.buttonSelectFile);
+        buttonSelectFile.setOnClickListener(this);
         buttonShare = (Button)findViewById(R.id.buttonShare);
         buttonShare.setOnClickListener(this);
     }
 
     @Override
-    public void showFieldError() {
-        editMessage.setError(getResources().getString(R.string.txt_field_require));
+    public void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.btn_select_file)), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case PICK_IMAGE_REQUEST:
+                switch (resultCode){
+                    case RESULT_OK:
+                        presenter.retrieveUserAction(data);
+                        break;
+                }
+                break;
+        }
+
+        /*if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //Setting the Bitmap to ImageView
+                imageSelected.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
+    }
+
+    @Override
+    public void showImageView(String srcImage) {
+        imageSelected.setVisibility(View.VISIBLE);
+        Picasso.with(MainActivity.this).load(srcImage).into(imageSelected);
+    }
+
+    @Override
+    public void showBitmapImageView(Uri filePath) {
+        try {
+            //Getting the Bitmap from Gallery
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+            //Setting the Bitmap to ImageView
+            imageSelected.setVisibility(View.VISIBLE);
+            imageSelected.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showButtonShare() {
+        buttonShare.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -46,8 +118,17 @@ public class MainActivity extends AppCompatActivity implements MainView.IMainAct
     }
 
     @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void onClick(View view) {
-        presenter.setDataEntry(editMessage.getText().toString().trim());
         presenter.retrieveUserAction(view);
     }
 }
