@@ -157,7 +157,7 @@ public class LoadImage extends AsyncTask<Void, Void, String> {
     private String getBase64ImageString(Bitmap bitmap) {
 
         Bitmap imageBitmap = null;
-        float maxWidth = 512.0f;
+        float maxWidth = 1024.0f;
         float newWidth=bitmap.getWidth();
         float newHeight=bitmap.getHeight();
         float rapportWidth = maxWidth/bitmap.getWidth();
@@ -193,6 +193,7 @@ public class LoadImage extends AsyncTask<Void, Void, String> {
      * @return
      */
     private String getBase64ImageStringOriginalSize(Bitmap bitmap) {
+        imageBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getWidth(), false);
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
         byte [] b=baos.toByteArray();
